@@ -1,0 +1,65 @@
+<script src="https://unpkg.com/vue@3"></script>
+<style>.loans-organized { display:none; } .visible { display:block !important; }</style>
+<script type="module">
+const { createApp } = Vue;
+
+createApp({
+	data() {
+		return {
+			loans: [
+				{
+					name: "Ultimate Credit Union",
+					borrower: "Paul Smith",
+					amount: 1500
+				},
+				{
+					name: "West Credit Union",
+					borrower: "Diane Winters",
+					amount: 2000
+				},
+				{
+					name: "Credit Union of the Mountains",
+					borrower: "Mark Stone",
+					amount: 750
+				},
+				{
+					name: "West Credit Union",
+					borrower: "Cindy Block",
+					amount: 3500
+				},
+				{
+					name: "Ultimate Credit Union",
+					borrower: "Margaret Hill",
+					amount: 1000
+				}
+			]
+		}
+	},
+	computed: {
+		loansSorted() {
+			return this.loans.reduce(function (object, loan) {
+
+				if (!object[loan.name]) {
+					object[loan.name] = [];
+				}
+
+				object[loan.name].push(`${loan.borrower} - $${loan.amount}`);
+
+				return object;
+
+			}, {});
+		}
+	}
+}).mount('#app');
+</script>
+
+<div id="app">
+	<div class="loans-organized" :class="['visible']">
+		<div v-for="(loans, lender) in loansSorted">
+			<h1>{{lender}}</h1>
+			<ul>
+				<li v-for="borrower in loans">{{borrower}}</li>
+			</ul>
+		</div>
+	</div>
+</div>
